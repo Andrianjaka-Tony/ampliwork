@@ -9,7 +9,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 
 type Props = {
-  /** Selected date as an ISO "YYYY-MM-DD" string, or "" when unset. */
   value: string;
   onChange: (value: string) => void;
   id?: string;

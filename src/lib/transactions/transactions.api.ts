@@ -27,7 +27,6 @@ function toQueryString(query: TransactionQuery): string {
   return queryString ? `?${queryString}` : "";
 }
 
-/** Full filtered list (no pagination) — used for the CSV export. */
 export function getTransactions(
   query: TransactionQuery = {},
   signal?: AbortSignal,
@@ -40,7 +39,6 @@ export function getTransactions(
   });
 }
 
-/** A single page of results plus the total count. */
 export function getTransactionsPage(
   query: TransactionQuery,
   signal?: AbortSignal,

@@ -6,25 +6,18 @@ import type { Transaction, TransactionAuthorizer } from "@/lib/transactions/tran
 
 import type { AuditSummary, Outlier } from "./audit.schema";
 
-/**
- * SERVER-ONLY. Surfaces spend that deserves a human's attention:
- *  - per-category amount outliers (robust IQR fence, all in USD),
- *  - authorization concentration (who approved what share of spend).
- */
-
 const BASE_CURRENCY: Currency = "USD";
-// Categories need enough debits for an IQR fence to be meaningful.
+
 const MIN_CATEGORY_SAMPLES = 8;
-// Standard upper outlier fence: Q3 + 1.5 × IQR.
+
 const IQR_MULTIPLIER = 1.5;
-// Cap the returned rows; `flaggedCount` still reflects the true total.
+
 const MAX_OUTLIERS = 50;
 
 function round2(value: number): number {
   return Math.round(value * 100) / 100;
 }
 
-/** Linear-interpolation percentile over an ascending-sorted array. */
 function percentile(sorted: number[], p: number): number {
   if (sorted.length === 0) return 0;
   const index = (sorted.length - 1) * p;
@@ -41,7 +34,6 @@ export function getAuditSummary(): AuditSummary {
   const debits = getTransactions().filter((tx) => tx.type === "debit");
   const totalSpend = debits.reduce((sum, tx) => sum + toUsd(tx), 0);
 
-  // Group debits by category to compute per-category outlier fences.
   const byCategory = new Map<string, Transaction[]>();
   for (const tx of debits) {
     const list = byCategory.get(tx.category) ?? [];
@@ -74,7 +66,6 @@ export function getAuditSummary(): AuditSummary {
   }
   outliers.sort((a, b) => b.usdAmount - a.usdAmount);
 
-  // Authorization concentration (spend only).
   const byApprover = new Map<
     string,
     { authorizer: TransactionAuthorizer; total: number; count: number; largest: number }

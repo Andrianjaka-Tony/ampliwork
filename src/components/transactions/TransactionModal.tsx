@@ -33,7 +33,6 @@ const ACRONYMS = new Set(["id", "url", "iban", "usd", "eur", "gbp", "cad"]);
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 const ISO_DATETIME = /^\d{4}-\d{2}-\d{2}T/;
 
-/** "transactionId" → "Transaction ID", "transactionDate" → "Transaction date". */
 function humanizeKey(key: string): string {
   return key
     .replace(/([a-z0-9])([A-Z])/g, "$1 $2")

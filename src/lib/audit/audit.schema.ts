@@ -6,7 +6,6 @@ import {
   transactionSchema,
 } from "@/lib/transactions/transactions.schema";
 
-/** A debit whose amount is a statistical outlier within its category. */
 export const outlierSchema = z.object({
   transaction: transactionSchema,
   usdAmount: z.number(),
@@ -15,7 +14,6 @@ export const outlierSchema = z.object({
 });
 export type Outlier = z.infer<typeof outlierSchema>;
 
-/** Spend authorized by a single user, with their share of total company spend. */
 export const approverStatSchema = z.object({
   authorizer: transactionAuthorizerSchema,
   total: z.number(),

@@ -28,11 +28,10 @@ function getAllTransactions(): Transaction[] {
   return (cache ??= normalizeBanks(getAllBankFiles(), buildResolver()));
 }
 
-/** Apply every filter, then sort by date (earliest-first by default). */
 function filterAndSort(query: TransactionQuery): Transaction[] {
   const { amount: min, maxAmount: max, currency } = query;
   const hasAmountFilter = min !== undefined || max !== undefined;
-  // Convert to the requested currency before comparing (matches "Show Currency In").
+
   const rates = hasAmountFilter && currency ? getRatesFile().rates : undefined;
 
   const result = getAllTransactions().filter((tx) => {
@@ -54,12 +53,10 @@ function filterAndSort(query: TransactionQuery): Transaction[] {
   );
 }
 
-/** Full filtered + sorted list (used by stats and the CSV export). */
 export function getTransactions(query: TransactionQuery = {}): Transaction[] {
   return filterAndSort(query);
 }
 
-/** A single page of results plus the total count for the active filters. */
 export function getTransactionsPage(query: TransactionQuery): TransactionPage {
   const all = filterAndSort(query);
   const page = query.page ?? 1;

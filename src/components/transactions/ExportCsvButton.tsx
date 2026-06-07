@@ -16,7 +16,6 @@ import { resolveDisplayAmount, type DisplayCurrency } from "@/lib/transactions/t
 import type { TransactionQuery } from "@/lib/transactions/transactions.schema";
 
 type Props = {
-  /** The active filters (without pagination) — all matching rows are exported. */
   query: TransactionQuery;
   displayCurrency: DisplayCurrency;
   rates: Rates | undefined;

@@ -37,8 +37,6 @@ export default function TransactionsPage() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
-  // Filters sent to the server (no pagination). Currency is only relevant — and
-  // only triggers a refetch — when an amount bound is set.
   const serverQuery = useMemo<TransactionQuery>(() => {
     const min = toNumber(minAmount);
     const max = toNumber(maxAmount);
@@ -56,7 +54,6 @@ export default function TransactionsPage() {
     };
   }, [bank, authorizedBy, type, minAmount, maxAmount, displayCurrency, fromDate]);
 
-  // Any filter change resets to the first page.
   useEffect(() => setPage(1), [serverQuery]);
 
   const pageQuery = useMemo<TransactionQuery>(

@@ -40,15 +40,15 @@ export const transactionQuerySchema = z.object({
   bank: bankSchema.optional(),
   authorizedBy: z.string().min(1).optional(),
   type: transactionTypeSchema.optional(),
-  // "amount" = minimum (README param); "maxAmount" = upper bound.
+
   amount: z.coerce.number().nonnegative().optional(),
   maxAmount: z.coerce.number().nonnegative().optional(),
-  // When set, amounts are converted to this currency before the min/max compare.
+
   currency: currencySchema.optional(),
   fromDate: z.iso.date().optional(),
-  // Sort by date; defaults to earliest-first (README).
+
   order: z.enum(["asc", "desc"]).optional(),
-  // Pagination is opt-in: present `page` switches the response to a page envelope.
+
   page: z.coerce.number().int().positive().optional(),
   pageSize: z.coerce.number().int().positive().max(30).optional(),
 });

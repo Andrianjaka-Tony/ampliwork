@@ -25,7 +25,6 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // `?page=…` switches the response to a paginated envelope; otherwise the full list.
     if (params.get("page") !== null) {
       return ok(getTransactionsPage(parsed.data));
     }
